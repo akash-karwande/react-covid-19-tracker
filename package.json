@@ -23,7 +23,6 @@
     "start": "serve -s build",
     "build": "react-scripts build",
     "heroku-postbuild": "npm run build"
-  }
 },
 "engines": {
   "node": "12.18.3",
