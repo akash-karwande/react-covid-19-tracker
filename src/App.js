@@ -1,13 +1,42 @@
-import React, { Component } from 'react'
+import React from 'react';
+import styles from './App.module.css'
+import Cards from './components/cards/Cards';
+import Charts from './components/chart/Charts';
+import CountryPicker from './components/countryPicker/CountryPicker';
+import { fetchData } from './api';
 
-class App extends Component {
+import image from './images/image.png';
+
+class App extends React.Component {
+  state = {
+    data: {},
+    country: '',
+  }
+
+  async componentDidMount() {
+    const data = await fetchData();
+
+    this.setState({ data });
+  }
+
+  handleCountryChange = async (country) => {
+    const data = await fetchData(country);
+
+    this.setState({ data, country: country });
+  }
+
   render() {
+    const { data, country } = this.state;
+
     return (
-      <div>
-        
+      <div className={styles.container}>
+        <img className={styles.image} src={image} alt="COVID-19" />
+        <Cards data={data} />
+        <CountryPicker handleCountryChange={this.handleCountryChange} />
+        <Charts data={data} country={country} />
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
